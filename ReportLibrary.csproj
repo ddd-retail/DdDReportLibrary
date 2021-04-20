@@ -85,9 +85,8 @@
       <HintPath>packages\LitJson.0.16.0\lib\net45\LitJSON.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\SharedLibraries\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Unofficial.Microsoft.AnalysisServices.AdomdClient.13.0.4001\lib\net40\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -123,6 +122,35 @@
     <Compile Include="DdDReportState.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="I18n.cs" />
+    <Compile Include="Models\BudgetRow.cs" />
+    <Compile Include="Models\ClientStartingDate.cs" />
+    <Compile Include="Models\DdDreportVersion.cs" />
+    <Compile Include="Models\FactTableRow.cs" />
+    <Compile Include="Models\GuestRow.cs" />
+    <Compile Include="Models\KeyFigure.cs" />
+    <Compile Include="Models\OracleRow.cs" />
+    <Compile Include="Models\Oracle\Client.cs" />
+    <Compile Include="Models\Oracle\ClientFileInfo.cs" />
+    <Compile Include="Models\Oracle\Concern.cs" />
+    <Compile Include="Models\Oracle\MainGroupRow.cs" />
+    <Compile Include="Models\Oracle\OracleItemGroup.cs" />
+    <Compile Include="Models\Oracle\OracleProduct.cs" />
+    <Compile Include="Models\Oracle\SystemCode.cs" />
+    <Compile Include="Models\Oracle\SystemCodeSalesType.cs" />
+    <Compile Include="Models\ProductCachingKey.cs" />
+    <Compile Include="Models\ReasonCodeKey.cs" />
+    <Compile Include="Models\ReasonCodeValue.cs" />
+    <Compile Include="Models\ReportUser.cs" />
+    <Compile Include="Models\RowNum.cs" />
+    <Compile Include="Models\Sql\EtlWClient.cs" />
+    <Compile Include="Models\Sql\GroupBridge.cs" />
+    <Compile Include="Models\Sql\LoyaltyCustomer.cs" />
+    <Compile Include="Models\Sql\MachineNrKey.cs" />
+    <Compile Include="Models\Sql\Product.cs" />
+    <Compile Include="Models\Sql\TempBudgetBase.cs" />
+    <Compile Include="Models\Sql\TempStock.cs" />
+    <Compile Include="Models\Sql\User.cs" />
+    <Compile Include="Models\TableDefinition.cs" />
     <Compile Include="ReportLibrary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />
@@ -153,6 +181,9 @@
     <None Include="NLog.config" />
     <None Include="packages.config" />
     <None Include="ReportLibrary.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
