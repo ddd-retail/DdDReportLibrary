@@ -120,7 +120,10 @@
     <Compile Include="AdoMD.cs" />
     <Compile Include="ConnectionHandler.cs" />
     <Compile Include="DdDReportState.cs" />
-    <Compile Include="Helpers.cs" />
+    <Compile Include="Helpers\ETLHelpers.cs" />
+    <Compile Include="Helpers\LoggingHelper.cs" />
+    <Compile Include="Helpers\SettingsContext.cs" />
+    <Compile Include="Helpers\VersionHolder.cs" />
     <Compile Include="I18n.cs" />
     <Compile Include="Models\BudgetRow.cs" />
     <Compile Include="Models\ClientStartingDate.cs" />
@@ -182,9 +185,7 @@
     <None Include="packages.config" />
     <None Include="ReportLibrary.nuspec" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

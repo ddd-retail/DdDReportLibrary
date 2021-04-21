@@ -58,7 +58,7 @@ namespace ReportLibrary
                 if (nameToShow != null)
                     return nameToShow.translate();
                 else
-                    return Helpers.LastName(dbName);
+                    return Helpers.ETLHelpers.LastName(dbName);
             }
         }
     }

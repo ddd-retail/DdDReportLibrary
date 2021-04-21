@@ -24,7 +24,7 @@ namespace ReportLibrary
                         if (reader.Read())
                             isChainUser = reader.GetInt32(0) == 1;
 
-                        Helpers.Debug("The user : " + id + " is a chain user : " + isChainUser);
+                        Helpers.ETLHelpers.Debug("The user : " + id + " is a chain user : " + isChainUser);
                     }
                 }
             }
@@ -61,16 +61,16 @@ namespace ReportLibrary
             if (String.IsNullOrEmpty(cubeName))
                 return false;
             else
-                return Helpers.ChainUsesCurrency(cubeName);
+                return Helpers.ETLHelpers.ChainUsesCurrency(cubeName);
         }
 
 
         static public string CubeName(int id)
         {
             string cubename = "";
-            Helpers.Debug("Trying to get cubename by chain: " + DdDReportState.currentChain);
+            Helpers.ETLHelpers.Debug("Trying to get cubename by chain: " + DdDReportState.currentChain);
             var chainConnString = DdDReportState.ChainConnectionString(DdDReportState.currentChain);
-            Helpers.Debug("Got the chain connectionString: " + chainConnString);
+            Helpers.ETLHelpers.Debug("Got the chain connectionString: " + chainConnString);
             using (SqlConnection connection = new SqlConnection(DdDReportState.ChainConnectionString(DdDReportState.currentChain)))
             {
                 connection.Open();
@@ -78,7 +78,7 @@ namespace ReportLibrary
                 {
                     cmd.Connection = connection;
                     cmd.CommandText = String.Format("SELECT cubeName FROM ddd.dbo.Users2 WHERE id = {0}", id);
-                    Helpers.Debug("SQL to fire: " + cmd.CommandText);
+                    Helpers.ETLHelpers.Debug("SQL to fire: " + cmd.CommandText);
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
@@ -87,7 +87,7 @@ namespace ReportLibrary
                 }
             }
 
-            return Helpers.RemoveSpecialChars(cubename);
+            return Helpers.ETLHelpers.RemoveSpecialChars(cubename);
         }
 
       

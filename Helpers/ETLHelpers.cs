@@ -8,9 +8,9 @@ using System.Net.Mail;
 using System.Text;
 using DdDRetail.Common.Logger.NLog;
 
-namespace ReportLibrary
+namespace ReportLibrary.Helpers
 {
-    public static class Helpers
+    public static class ETLHelpers
     {
         static string[] timeDimensions = { "[Time].[Year].[Year]", "[Time].[Month].[Month]", "[Time].[Week].[Week]", "[Time].[PK_Date].[PK_Date]", "[Time].[YTD].[YTD]", "[Time].[MTD].[MTD]" };
         static string[] partKeyFigures = { "[Measures].[NettoomsaetningPart]", "[Measures].[BruttoavancePart]", "[Measures].[UltimolagerPart]", "[Measures].[PrimolagerPart]" };
@@ -55,7 +55,7 @@ namespace ReportLibrary
 
         static public void sendEmail(string to, string header, string body, Attachment attachment)
         {
-            Helpers.Debug("Sending email to: {0}", to);
+            ETLHelpers.Debug("Sending email to: {0}", to);
             MailMessage m;
             try
             {
@@ -66,7 +66,7 @@ namespace ReportLibrary
             catch (Exception e)
             {
                 // most likely invalid email
-                Helpers.Debug("mail message failed with: " + e.Message);
+                ETLHelpers.Debug("mail message failed with: " + e.Message);
                 return;
             }
             m.Subject = header;
@@ -80,8 +80,8 @@ namespace ReportLibrary
             }
             catch (Exception exception)
             {
-                Helpers.error("Could not send email, error {0}", exception.Message);
-                Helpers.Debug("Could not send email, error {0}\n{1}", exception.Message, exception.InnerException);
+                ETLHelpers.error("Could not send email, error {0}", exception.Message);
+                ETLHelpers.Debug("Could not send email, error {0}\n{1}", exception.Message, exception.InnerException);
             }
         }
 
@@ -106,7 +106,7 @@ namespace ReportLibrary
                             ++currencies;
                     }
 
-                    Helpers.Debug("Currency count for chain " + chainName + " was " + currencies);
+                    ETLHelpers.Debug("Currency count for chain " + chainName + " was " + currencies);
                 }
             }
 
