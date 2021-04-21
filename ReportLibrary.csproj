@@ -69,9 +69,12 @@
       <HintPath>packages\DdDRetail.Common.1.5.7\lib\net46\DdDRetail.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Data.v13.1, Version=13.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpo.v13.1, Version=13.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="FastMember, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+	<Reference Include="DevExpress.Data.v13.1, Version=13.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+          <HintPath>..\..\..\Programmer\DevExpress\DevExpress.Data.v13.1.dll</HintPath>
+	</Reference>  
+    <Reference Include="DevExpress.Xpo.v13.1, Version=13.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+          <HintPath>..\..\..\Programmer\DevExpress\DevExpress.Xpo.v13.1.dll</HintPath>
+	</Reference>      <Reference Include="FastMember, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\FastMember.1.5.0\lib\net461\FastMember.dll</HintPath>
       <Private>True</Private>
     </Reference>
