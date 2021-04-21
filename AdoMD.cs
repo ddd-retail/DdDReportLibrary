@@ -19,8 +19,8 @@ namespace ReportLibrary
             bool isAnyPartOrGTPart = false;
             foreach (var kf in keyFigures)
             {
-                if (Helpers.IsPartKeyFigure(kf.dbName) ||
-                    Helpers.IsGTPartKeyFigure(kf.dbName))
+                if (Helpers.ETLHelpers.IsPartKeyFigure(kf.dbName) ||
+                    Helpers.ETLHelpers.IsGTPartKeyFigure(kf.dbName))
                 {
                     isAnyPartOrGTPart = true;
                     break;
@@ -43,12 +43,12 @@ namespace ReportLibrary
                     for (int index = 1; index < row.Table.Columns.Count; ++index)
                     {
                         KeyFigure kf = keyFigures[index - 1];
-                        if (Helpers.IsPartKeyFigure(kf.dbName))
+                        if (Helpers.ETLHelpers.IsPartKeyFigure(kf.dbName))
                         {
                             row[index] = FormatPartKeyFigureDouble(row[index], new List<Dimension> { dimension }, new List<KeyFigure> { kf }, restrictions,
                                                                    connectionString, userID, SQLServer);
                         }
-                        else if (Helpers.IsGTPartKeyFigure(kf.dbName))
+                        else if (Helpers.ETLHelpers.IsGTPartKeyFigure(kf.dbName))
                         {
                             row[index] = FormatPartKeyFigureDouble(row[index], new List<Dimension> { dimension }, new List<KeyFigure> { kf }, GTrestrictions,
                                                                    connectionString, userID, SQLServer);
@@ -101,7 +101,7 @@ namespace ReportLibrary
         {
             AdomdConnection con = new AdomdConnection();
             con.ConnectionString = connectionString;
-            Helpers.Debug("Using ADOMD String : " + con.ConnectionString);
+            Helpers.ETLHelpers.Debug("Using ADOMD String : " + con.ConnectionString);
             con.Open();
 
             List<string> kfs = keyFigures.ConvertAll(x => x.dbName);
@@ -244,7 +244,7 @@ namespace ReportLibrary
                         }
                     }
 
-                    Helpers.Debug("Rows1: " + rows);
+                    Helpers.ETLHelpers.Debug("Rows1: " + rows);
                     if (dimRestrictions.Count > 0 && dim2Restrictions.Count > 0)
                     {
                         rows = "{";
@@ -262,7 +262,7 @@ namespace ReportLibrary
                             }
                         }
                         rows = rows.Substring(0, rows.Length - 2) + "}";
-                        Helpers.Debug("Rows2: " + rows);
+                        Helpers.ETLHelpers.Debug("Rows2: " + rows);
 
                     }
                     else if (dimRestrictions.Count > 0)
@@ -276,7 +276,7 @@ namespace ReportLibrary
                                 rows += string.Format("({0}.&[{1}]), ", dim, dimRestriction);
                         }
                         rows = rows.Substring(0, rows.Length - 2) + "}";
-                        Helpers.Debug("Rows3: " + rows);
+                        Helpers.ETLHelpers.Debug("Rows3: " + rows);
 
                     }
                     else if (dim2Restrictions.Count > 0)
@@ -290,7 +290,7 @@ namespace ReportLibrary
                                 rows += string.Format("({0}, {1}.&[{2}]), ", dim, dim2, dimRestriction);
                         }
                         rows = rows.Substring(0, rows.Length - 2) + "}";
-                        Helpers.Debug("Rows4: " + rows);
+                        Helpers.ETLHelpers.Debug("Rows4: " + rows);
 
                     }
                 }
@@ -314,13 +314,13 @@ namespace ReportLibrary
             else
                 query = withMember + "SELECT " + columns + " on columns, " + rows + " ON ROWS FROM [" + ConnectionHandler.adomdCubeName(userID) + "]" + where;
 
-            Helpers.Debug("ADOMD query for execution: " + query);
+            Helpers.ETLHelpers.Debug("ADOMD query for execution: " + query);
 
             AdomdDataAdapter adapter = new AdomdDataAdapter(query, con);
             DataTable table = new DataTable();
 
             Type type = null;
-            if (Helpers.IsTimeDimension(dim))
+            if (Helpers.ETLHelpers.IsTimeDimension(dim))
                 type = typeof(System.DateTime);
             else
                 type = typeof(string);
@@ -331,7 +331,7 @@ namespace ReportLibrary
 
             if (!String.IsNullOrEmpty(dim2))
             {
-                if (Helpers.IsTimeDimension(dim2))
+                if (Helpers.ETLHelpers.IsTimeDimension(dim2))
                     type = typeof(System.DateTime);
                 else
                     type = typeof(string);
@@ -347,7 +347,7 @@ namespace ReportLibrary
             // currency
             if (User.IsChainUser(userID) && User.UsesCurrency(userID))
             {
-                var conversionRate = ReportLibrary.Helpers.ConversionRate(User.Currency(userID), SQLServer);
+                var conversionRate = Helpers.ETLHelpers.ConversionRate(User.Currency(userID), SQLServer);
 
                 foreach (DataRow row in table.Rows)
                 {
@@ -385,9 +385,9 @@ namespace ReportLibrary
                 if (!String.IsNullOrEmpty(dim2))
                     dimsAtEnd = 1;
 
-                Helpers.Debug("ADOMD restrictions count:" + dims);
-                Helpers.Debug("Columns count:" + table.Columns.Count);
-                Helpers.Debug("Itemarray[0] count:" + table.Rows[0].ItemArray.Length);
+                Helpers.ETLHelpers.Debug("ADOMD restrictions count:" + dims);
+                Helpers.ETLHelpers.Debug("Columns count:" + table.Columns.Count);
+                Helpers.ETLHelpers.Debug("Itemarray[0] count:" + table.Rows[0].ItemArray.Length);
 
                 Type stringType = "".GetType();
                 foreach (DataRow row in table.Rows)
@@ -397,12 +397,12 @@ namespace ReportLibrary
                     {
 
                         // this is much faster than catching exceptions
-                        Helpers.Debug("Data type : " + table.Columns[i].DataType + ", value: " + row.ItemArray[i]);
+                        Helpers.ETLHelpers.Debug("Data type : " + table.Columns[i].DataType + ", value: " + row.ItemArray[i]);
 
                         if (row.ItemArray[i] == DBNull.Value || table.Columns[i].DataType == stringType)
                             continue;
 
-                        Helpers.Debug("item array value: " + (Double)row.ItemArray[i]);
+                        Helpers.ETLHelpers.Debug("item array value: " + (Double)row.ItemArray[i]);
 
 
                         try
@@ -410,13 +410,13 @@ namespace ReportLibrary
                             if ((Double)row.ItemArray[i] != 0)
                             {
                                 skip = false;
-                                Helpers.Debug(" Zeroskip, skipped = false: " + row.ItemArray[i]);
+                                Helpers.ETLHelpers.Debug(" Zeroskip, skipped = false: " + row.ItemArray[i]);
                                 break;
                             }
                         }
                         catch (System.InvalidCastException)
                         {
-                            Helpers.Debug("Invalid cast with zeroskip: " + row.ItemArray[i]);
+                            Helpers.ETLHelpers.Debug("Invalid cast with zeroskip: " + row.ItemArray[i]);
 
                             skip = false; //MGA NEW 27052013
 
@@ -431,14 +431,14 @@ namespace ReportLibrary
 
                 row_indexes.Reverse(); // otherwise the indexes don't match ;-)
 
-                Helpers.Debug("tablerows count before : " + table.Rows.Count);
+                Helpers.ETLHelpers.Debug("tablerows count before : " + table.Rows.Count);
                 foreach (int index in row_indexes)
                 {
 
-                    Helpers.Debug("Zeroskip, should remove index : " + index);
+                    Helpers.ETLHelpers.Debug("Zeroskip, should remove index : " + index);
                     table.Rows.RemoveAt(index);
                 }
-                Helpers.Debug("tablerows count after : " + table.Rows.Count);
+                Helpers.ETLHelpers.Debug("tablerows count after : " + table.Rows.Count);
             }
 
             // Helpers.debug("count {0}", table.Rows.Count);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using ReportLibrary;
+using ReportLibrary.Helpers;
 using System.Web;
 
 namespace i18n
@@ -125,7 +125,7 @@ namespace i18n
 
         void parsePoFile(string path)
         {
-            Helpers.Debug("parsing file " + path);
+            ETLHelpers.Debug("parsing file " + path);
 
             using (TextReader reader = new StreamReader(path, System.Text.Encoding.UTF8))
             {
